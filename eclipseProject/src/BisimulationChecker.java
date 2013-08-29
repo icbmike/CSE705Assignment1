@@ -30,9 +30,9 @@ public class BisimulationChecker {
 		for(String line : lines){
 			if(line.startsWith("!")) break;
 			String[] split = line.split("[,:]");
-			System.out.println(split);
-			lts.addState(1);
-			lts.addSuccesor(1, "2", 2);
+			
+			lts.addState(Integer.parseInt(split[0]));
+			lts.addSuccesor(Integer.parseInt(split[0]), split[1], Integer.parseInt(split[2]));
 		}
 		return lts;
 	}
@@ -49,7 +49,9 @@ public class BisimulationChecker {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		BisimulationChecker bc = new BisimulationChecker();
+		String testDir = "/Users/michaellittle/Repos/CSE705Assignment1Tests/";
+		bc.readInput(testDir + "1_P", testDir + "1_Q");
 	}
 
 }
