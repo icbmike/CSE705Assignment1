@@ -1,4 +1,6 @@
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class LabeledTransitionSystem {
 
@@ -17,4 +19,17 @@ public class LabeledTransitionSystem {
 		_states.put(state, new State(state));
 	}
 
+	public State getState(int state){
+		return _states.get(state);
+	}
+
+	public Set<Integer> getStateIDs() {
+		return _states.keySet();
+		
+	}
+
+	public Collection<State> getStates() {
+		return _states.values();
+	}
+	
 }
