@@ -43,6 +43,10 @@ Deadlock prevention : $AG(\forall (x, y) \in n \times n. \neg (waiting\_for(x, y
 \section{Question 2}
 \section{Question 3}
 \section{Question 4}
+The difference between simulation and bisimulation is a question of where the observer is or what level of abstraction you are working with.
 
+For example given two cars, one with an internal combustion engine and the other a hybrid vehicle. If we model them both as processes with states like driving and stopped and turning, and actions like drive, brake, turn, etc, both cars can simulate each other, and are bi-similar. The internal operations of how they achive these actions are different but from a driver's point of view they behave the same.
+
+If we now go to a mechanics point of view, the hybrid vehicle has both a motor powered by internal combustion and electric motors. The other car has only a combustion engine. The hybrid car can perform all the actions that the car with the combustion engine can but not vice versa. We can say that the hybrid car simulates the other car.
 
 \end{document}
