@@ -12,6 +12,8 @@
 \setlength{\parskip}{10pt plus 1pt minus 1pt}
 
 \section{Question 1}
+
+\subsection{1}
 \includegraphics[width=3.6in]{q1model}
 \newline
 To verify the property $AF(\neg P1 \wedge \neg P2)$ we first need to transform it into the form of $EGf1$:
@@ -29,6 +31,14 @@ The final state of the model after performing checkEG() is:
 \includegraphics[width=3.6in]{q1modelchecked}
 
 We can deterimine then that the model does not satisfy the property $AF(\neg P1 \wedge \neg P2)$
+
+\subsection{2}
+Mutual exclusion is a safety property, so we can express it using $AGf$: 
+$AG(in\_critical\_section(0)  \vee ...\vee in\_critical\_section(n) \vee critical\_section\_empty)$
+
+Eventual entry to a critical section is a liveness property: $AG(AF(in\_critical\_section(0)) \wedge ... \wedge AF(in\_critical\_section(n)))$
+
+
 
 \section{Question 2}
 \section{Question 3}

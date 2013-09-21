@@ -7,3 +7,11 @@
 
 .classpath
 .project
+
+
+#tex files
+*.aux
+*.log
+*.fdb_latexmk
+*.pdf
+*.synctex.gz
