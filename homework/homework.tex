@@ -1,0 +1,38 @@
+\documentclass{scrartcl}
+% packages and settings for graphics
+\usepackage[pdftex]{graphicx}
+\graphicspath{{./}}
+\DeclareGraphicsExtensions{.png}
+\usepackage[final]{pdfpages}
+\usepackage[margin=0.8in]{geometry}
+
+\title{CSE705 Assignment 1 - Homework}
+\begin{document}
+\setcounter{secnumdepth}{0}
+\setlength{\parskip}{10pt plus 1pt minus 1pt}
+
+\section{Question 1}
+\includegraphics[width=3.6in]{q1model}
+\newline
+To verify the property $AF(\neg P1 \wedge \neg P2)$ we first need to transform it into the form of $EGf1$:
+
+$\neg EG(\neg ( \neg P1 \wedge \neg P2)) \equiv \neg EG((P1 \vee P2))$.
+
+We then apply the checkEG() algorithm: We identify states that satisfy $(P1 \vee P2)$: $S'$ = $\{0, 2, 3, 4, 5, 6, 7\}$
+We form SCCs from these states = \{\{0\}, \{2, 3, 4, 5, 6, 7\}\}.
+We pick an SCC and label all its states with $EG((P1 \vee P2))$.
+We then perform backwards reachability and find that we can't find any other states in $S'$ that haven't been labeled and are reachable.
+We label all other states with $\neg EG((P1 \vee P2))$ and we finish.
+
+The final state of the model after performing checkEG() is:
+
+\includegraphics[width=3.6in]{q1modelchecked}
+
+We can deterimine then that the model does not satisfy the property $AF(\neg P1 \wedge \neg P2)$
+
+\section{Question 2}
+\section{Question 3}
+\section{Question 4}
+
+
+\end{document}
