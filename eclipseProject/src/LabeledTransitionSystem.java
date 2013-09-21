@@ -5,8 +5,10 @@ import java.util.Set;
 public class LabeledTransitionSystem {
 
 	private HashMap<Integer, State> _states;
+	private String _name;
 
-	public LabeledTransitionSystem() {
+	public LabeledTransitionSystem(String name) {
+		_name = name;
 		_states = new HashMap<Integer, State>();
 	}
 
@@ -15,8 +17,8 @@ public class LabeledTransitionSystem {
 
 	}
 
-	public void addState(int state) {
-		_states.put(state, new State(state));
+	public void addState(int state, String owner) {
+		_states.put(state, new State(state, owner));
 	}
 
 	public State getState(int state){
@@ -31,5 +33,10 @@ public class LabeledTransitionSystem {
 	public Collection<State> getStates() {
 		return _states.values();
 	}
+
+	public String getName() {
+		return _name;
+	}
+
 	
 }
