@@ -33,8 +33,8 @@ The final state of the model after performing checkEG() is:
 We can deterimine then that the model does not satisfy the property $AF(\neg P1 \wedge \neg P2)$
 
 \subsection{2}
-Mutual exclusion is a safety property, so we can express it using $AGf$: 
-$AG(in\_critical\_section(0)  \vee ...\vee in\_critical\_section(n) \vee critical\_section\_empty)$
+Mutual exclusion is a safety property: 
+$AG(in\_critical\_section(0)  \oplus ...\oplus in\_critical\_section(n) \oplus critical\_section\_empty)$
 
 Eventual entry to a critical section is a liveness property: $AG(AF(in\_critical\_section(0)) \wedge ... \wedge AF(in\_critical\_section(n)))$
 
