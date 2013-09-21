@@ -38,7 +38,7 @@ $AG(in\_critical\_section(0)  \vee ...\vee in\_critical\_section(n) \vee critica
 
 Eventual entry to a critical section is a liveness property: $AG(AF(in\_critical\_section(0)) \wedge ... \wedge AF(in\_critical\_section(n)))$
 
-
+Deadlock prevention : $AG(\forall (x, y) \in n \times n. \neg (waiting\_for(x, y) \wedge waiting\_for(y, x))$
 
 \section{Question 2}
 \section{Question 3}
