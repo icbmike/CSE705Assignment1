@@ -15,3 +15,8 @@
 *.fdb_latexmk
 *.pdf
 *.synctex.gz
+
+
+#dia files
+*.dia~
+*.eps
