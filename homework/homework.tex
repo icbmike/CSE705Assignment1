@@ -36,7 +36,7 @@ We can deterimine then that the model does not satisfy the property $AF(\neg P1 
 Mutual exclusion is a safety property: 
 $AG(in\_critical\_section(0)  \oplus ...\oplus in\_critical\_section(n) \oplus critical\_section\_empty)$
 
-Eventual entry to a critical section is a liveness property: $AG(AF(in\_critical\_section(0)) \wedge ... \wedge AF(in\_critical\_section(n)))$
+Eventual entry to a critical section is a liveness property: $AG(request\_lock(i) \Rightarrow AF(in\_critical\_section(i)))$
 
 Deadlock prevention : $AG(\forall (x, y) \in n \times n. \neg (waiting\_for(x, y) \wedge waiting\_for(y, x))$
 
