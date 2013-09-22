@@ -38,7 +38,7 @@ public class State {
 	}
 	
 	public String niceOutput(){
-		return "state(" + _stateID + ")";
+		return "state(" + owner + _stateID + ")";
 	}
 
 	@Override

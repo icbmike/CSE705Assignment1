@@ -1,9 +1,12 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +26,22 @@ public class BisimulationChecker {
 
 	public void readInput(String fileP, String fileQ) {
 		try {
+			while (fileP == null
+					|| !Files.exists(FileSystems.getDefault().getPath(fileP),
+							LinkOption.NOFOLLOW_LINKS)) {
+				// User pls.
+				System.out.print("Please enter a string for fileP: ");
+				fileP = new BufferedReader(new InputStreamReader(System.in))
+						.readLine();
+			}
+			while (fileQ == null
+					|| !Files.exists(FileSystems.getDefault().getPath(fileQ),
+							LinkOption.NOFOLLOW_LINKS)) {
+				// User pls.
+				System.out.print("Please enter a string for fileQ: ");
+				fileQ = new BufferedReader(new InputStreamReader(System.in))
+						.readLine();
+			}
 			p = createLTS(Files.readAllLines(
 					FileSystems.getDefault().getPath(fileP),
 					StandardCharsets.UTF_8), "P");
@@ -44,7 +63,8 @@ public class BisimulationChecker {
 			String[] split = line.split("[,:]");
 
 			// Add all states
-			lts.addState(Integer.parseInt(split[0]), name);
+			lts.addState(Integer.parseInt(split[0].trim()), name);
+			lts.addState(Integer.parseInt(split[2].trim()), name);
 
 		}
 
@@ -54,8 +74,8 @@ public class BisimulationChecker {
 			String[] split = line.split("[,:]");
 			// Add all transitions
 			actions.add(split[1]);
-			lts.addSuccesor(Integer.parseInt(split[0]), split[1],
-					Integer.parseInt(split[2]));
+			lts.addSuccesor(Integer.parseInt(split[0].trim()), split[1].trim(),
+					Integer.parseInt(split[2].trim()));
 		}
 		return lts;
 	}
@@ -106,14 +126,14 @@ public class BisimulationChecker {
 	private Set<State> tap(String action, Set<State> partition,
 			Set<State> pPrime) {
 		HashSet<State> accumulator = new HashSet<State>();
-		
-		for(State s : partition){
+
+		for (State s : partition) {
 			Set<State> successors = s.getSuccessors(action);
-			if(successors != null){
-				for(State successor : successors)
-				if(pPrime.contains(successor)){
-					accumulator.add(s);
-				}
+			if (successors != null) {
+				for (State successor : successors)
+					if (pPrime.contains(successor)) {
+						accumulator.add(s);
+					}
 			}
 		}
 		return accumulator;
@@ -122,128 +142,145 @@ public class BisimulationChecker {
 
 	private Set<Set<State>> split(Set<State> partition, Set<State> pPrime,
 			String action) {
-		
+
 		HashSet<Set<State>> split = new HashSet<Set<State>>();
 		Set<State> tap = tap(action, partition, pPrime);
 		split.add(tap);
-		Set<State> pup =  new HashSet<>();
+		Set<State> pup = new HashSet<>();
 		pup.addAll(partition);
 		pup.addAll(pPrime);
 		pup.removeAll(tap);
 		split.add(pup);
-		
+
 		return split;
 
 	}
 
 	public void writeOutput(String filename) {
+
+		while (filename == null) {
+			// User pls.
+			System.out.print("Please enter a string for output file: ");
+			try {
+				filename = new BufferedReader(new InputStreamReader(System.in))
+						.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(processOutput(p));
 		sb.append("\n");
 		sb.append(processOutput(q));
 		sb.append("\nBisimulation Results\n");
-		for (Set<State> partition : rho){
+		for (Set<State> partition : rho) {
 			sb.append(joinStates(partition, ","));
 			sb.append("\n");
 		}
 		sb.append("Bisumulation Answer\n");
 		sb.append(isBisimilar() ? "Yes" : "No");
-		
+
 		try {
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename));
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(
+					filename));
 			bufferedWriter.write(sb.toString());
 			bufferedWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	private boolean isBisimilar() {
 		boolean isBisimilar = true;
-        for (Set<State> states : rho) {
-            HashSet<Character> prefixes = new HashSet<Character>();
+		for (Set<State> states : rho) {
+			HashSet<Character> prefixes = new HashSet<Character>();
 
-            for (State s : states) {
-                prefixes.add(s.toString().charAt(0));
-            }
+			for (State s : states) {
+				prefixes.add(s.toString().charAt(0));
+			}
 
-            isBisimilar = prefixes.contains(p.getName()) && prefixes.contains(q.getName()) && isBisimilar;
-            
-        }
-		
+			isBisimilar = prefixes.contains(p.getName().charAt(0))
+					&& prefixes.contains(q.getName().charAt(0)) && isBisimilar;
+
+		}
+
 		return isBisimilar;
 	}
 
 	private String processOutput(LabeledTransitionSystem process) {
-		//Output for Process
-		StringBuilder sb = new StringBuilder("Process "+process.getName()+"\n");
-		//States
+		// Output for Process
+		StringBuilder sb = new StringBuilder("Process " + process.getName()
+				+ "\n");
+		// States
 		sb.append("S = ");
 		sb.append(joinStates(process.getStates(), ","));
-		//Actions
+		// Actions
 		sb.append("\nA = ");
-		Set<String> pActions =  new HashSet<>();
+		Set<String> pActions = new HashSet<>();
 		for (State state : process.getStates()) {
 			pActions.addAll(state.getTransitions());
 		}
 		sb.append(joinActions(pActions, ","));
-		//Transitions
+		// Transitions
 		sb.append("\nT = ");
-		Set<String> pTransitions =  new HashSet<>();
+		Set<String> pTransitions = new HashSet<>();
 		for (State state : process.getStates()) {
-			for(String action: state.getTransitions()){
-				for(State successor : state.getSuccessors(action)){
-					pTransitions.add("(" + state.niceOutput() + "," + "action(" + action + ")" + "," + successor.niceOutput()+")");
+			for (String action : state.getTransitions()) {
+				for (State successor : state.getSuccessors(action)) {
+					if (successor != null) {
+						pTransitions.add("(" + state.niceOutput() + ","
+								+ "action(" + action + ")" + ","
+								+ successor.niceOutput() + ")");
+					}
 				}
-				
+
 			}
 		}
 		sb.append(join(pTransitions, ","));
 		return sb.toString();
 	}
-	
+
 	static String joinStates(Collection<State> s, String delimiter) {
-	     StringBuilder builder = new StringBuilder();
-	     Iterator<State> iter = s.iterator();
-	     while (iter.hasNext()) {
-	         builder.append(iter.next().niceOutput());
-	         if (!iter.hasNext()) {
-	           break;                  
-	         }
-	         builder.append(delimiter);
-	     }
-	     return builder.toString();
-	 }
-	
+		StringBuilder builder = new StringBuilder();
+		Iterator<State> iter = s.iterator();
+		while (iter.hasNext()) {
+			builder.append(iter.next().niceOutput());
+			if (!iter.hasNext()) {
+				break;
+			}
+			builder.append(delimiter);
+		}
+		return builder.toString();
+	}
+
 	static String join(Collection<String> s, String delimiter) {
 		StringBuilder builder = new StringBuilder();
 		Iterator<String> iter = s.iterator();
 		while (iter.hasNext()) {
 			builder.append(iter.next());
 			if (!iter.hasNext()) {
-				break;                  
+				break;
 			}
 			builder.append(delimiter);
 		}
 		return builder.toString();
 	}
-	
-	
-	
+
 	static String joinActions(Collection<String> s, String delimiter) {
-	     StringBuilder builder = new StringBuilder();
-	     Iterator<String> iter = s.iterator();
-	     while (iter.hasNext()) {
-	    	 builder.append("action(");
-	         builder.append(iter.next());
-	         builder.append(")");
-	         if (!iter.hasNext()) {
-	           break;                  
-	         }
-	         builder.append(delimiter);
-	     }
-	     return builder.toString();
-	 }
+		StringBuilder builder = new StringBuilder();
+		Iterator<String> iter = s.iterator();
+		while (iter.hasNext()) {
+			builder.append("action(");
+			builder.append(iter.next());
+			builder.append(")");
+			if (!iter.hasNext()) {
+				break;
+			}
+			builder.append(delimiter);
+		}
+		return builder.toString();
+	}
 
 	/**
 	 * @param args
@@ -251,9 +288,9 @@ public class BisimulationChecker {
 	public static void main(String[] args) {
 		BisimulationChecker bc = new BisimulationChecker();
 		String testDir = "/Users/michaellittle/Repos/CSE705Assignment1Tests/";
-		bc.readInput(testDir + "bookP", testDir + "bookQ");
+		bc.readInput("../../CSE705Assignment1Tests/2_P", "../../CSE705Assignment1Tests/2_Q");
 		bc.performBisimulation();
-		bc.writeOutput("");
+		bc.writeOutput("../../CSE705Assignment1Tests/out");
 
 	}
 
