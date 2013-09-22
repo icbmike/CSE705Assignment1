@@ -230,7 +230,7 @@ public class BisimulationChecker {
 				for (State successor : state.getSuccessors(action)) {
 					if (successor != null) {
 						pTransitions.add("(" + state.niceOutput() + ","
-								+ "action(" + action + ")" + ","
+								+ action + ","
 								+ successor.niceOutput() + ")");
 					}
 				}
@@ -271,9 +271,7 @@ public class BisimulationChecker {
 		StringBuilder builder = new StringBuilder();
 		Iterator<String> iter = s.iterator();
 		while (iter.hasNext()) {
-			builder.append("action(");
 			builder.append(iter.next());
-			builder.append(")");
 			if (!iter.hasNext()) {
 				break;
 			}
