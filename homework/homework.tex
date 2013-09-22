@@ -41,6 +41,13 @@ Eventual entry to a critical section is a liveness property: $AG(AF(in\_critical
 Deadlock prevention : $AG(\forall (x, y) \in n \times n. \neg (waiting\_for(x, y) \wedge waiting\_for(y, x))$
 
 \section{Question 2}
+\includegraphics[width=6in]{question2.eps}
+\subsection{1}
+Because A1 and A2 are already both deterministic and reactive, this is preserved when they are composed.
+\subsection{2}
+\includegraphics[width=6in]{question2_2.eps}
+
+The compositioin $A1 \| A2 \setminus \{b, c\}$ is neither deterministic, nor reactive.
 \section{Question 3}
 \includegraphics[width=6in]{question3.eps}
 \section{Question 4}
