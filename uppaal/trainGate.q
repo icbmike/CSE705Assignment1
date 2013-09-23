@@ -3,7 +3,7 @@
 /*
 
 */
-E<> (TrafficLight.Green)
+E<> (TrafficLight.Green and Gate.Open)
 
 /*
 
@@ -14,6 +14,11 @@ A[] TrafficLight.Green imply Gate.Open
 
 */
 A[] not (Gate.Closing and Gate.Opening)
+
+/*
+
+*/
+A[](!deadlock)
 
 /*
 
