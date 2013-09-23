@@ -1,19 +1,24 @@
-//This file was generated from (Academic) UPPAAL 4.1.14 (rev. 5212), March 2013
+//This file was generated from (Academic) UPPAAL 4.0.13 (rev. 4577), September 2010
 
 /*
 
 */
-A<> (TrafficLight.Green and Gate.Open)
+E<> (TrafficLight.Green)
 
 /*
 
 */
-A[] (Gate.Opening imply A<> (TrafficLight.Green))
+A[] TrafficLight.Green imply Gate.Open
 
 /*
 
 */
-A[] (TrafficLight.Red imply A<> (Gate.Closing))
+A[] not (Gate.Closing and Gate.Opening)
+
+/*
+
+*/
+A[] Gate.Closed imply TrafficLight.Red
 
 /*
 
