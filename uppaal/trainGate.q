@@ -18,6 +18,11 @@ A[] not (Gate.Closing and Gate.Opening)
 /*
 
 */
+A[](Gate.Open imply TrafficLight.Green)
+
+/*
+
+*/
 A[](!deadlock)
 
 /*
